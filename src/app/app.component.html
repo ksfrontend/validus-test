@@ -1,0 +1,52 @@
+<div class="content" role="main">
+  <table class="table table-sm">
+    <thead class="thead-dark">
+      <tr>
+        <th><a href='javascript:;' (click)="toggleDirection('')">Artist Name</a></th>
+        <th><a href='javascript:;' (click)="toggleDirection('')">Album Name</a></th>
+        <th><a href='javascript:;' (click)="toggleDirection('')">Year Released</a></th>
+        <th><a href='javascript:;' (click)="toggleDirection('track')">Song Track #</a></th>
+        <th><a href='javascript:;' (click)="toggleDirection('name')">Song Name</a></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="
+          let item of songs
+            | paginate
+              : {
+                  itemsPerPage: 10,
+                  currentPage: currentPage,
+                  totalItems: totalItems
+                }
+        "
+      >
+        <td>{{ item.artist_name }}</td>
+        <td>{{ item.album_name }}</td>
+        <td>{{ item.year_released }}</td>
+        <td>{{ item.track }}</td>
+        <td>{{ item.name }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="row">
+    <nav class="wt-pagination col-md-6" *ngIf="songs && songs.length > 0">
+      <pagination-controls (pageChange)="GetSongList($event)">
+      </pagination-controls>
+    </nav>
+    <div class="mb0 pt0 col-md-6" *ngIf="songs && songs.length > 0">
+      <span class="float-right">
+        Showing
+        {{ itemsPerPage * currentPage - itemsPerPage + 1 }}
+        to
+        {{
+          itemsPerPage == songs.length
+            ? itemsPerPage * currentPage
+            : itemsPerPage * currentPage - itemsPerPage + songs.length
+        }}
+        of {{ totalItems }} results
+      </span>
+    </div>
+  </div>
+</div>
